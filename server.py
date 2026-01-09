@@ -1,6 +1,7 @@
 import socket
 import subprocess
 import os
+import threading
 
 HOST = '0.0.0.0'
 PORT = 4444
@@ -38,7 +39,7 @@ def handle_client(conn, addr):
 
 def start_server():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.setsockpot(socket.SOL_SOCKET, socert.SO_REUSEADOR, 1)
+    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.bind((HOST, PORT))
     server.listen(5)
 
@@ -46,7 +47,7 @@ def start_server():
         while True:
             conn, addr = server.accept()
             client_thread = threading.Thread(target=handle_client, args=(conn, addr))
-            client_thread.strat()
+            client_thread.start()
     except KeyboardInterrupt:
         print("Quiting . . . ")
     finally:
